@@ -1,0 +1,30 @@
+.header {
+  background-color: #073042;
+  padding: 18px 70px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header__auth-links {
+  display: flex;
+  justify-content: right;
+  align-items: center;
+  gap: 10px;
+}
+
+.header__auth-link {
+  text-decoration: none;
+  color: #FFF;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 16px;
+  padding: 8px 20px;
+  transition: .2s all linear;
+}
+
+.header__auth-link:hover {
+  background-color: #2BE080;
+  border-radius: 3px;
+  color: #000;
+}
