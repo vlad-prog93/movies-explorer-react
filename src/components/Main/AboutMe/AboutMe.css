@@ -1,21 +1,21 @@
-.person {
+.aboutMe {
   padding: 110px 70px 0;
 }
 
-.person__container {
+.aboutMe__container {
   padding: 66px 0 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.person__texts {
+.aboutMe__texts {
   display: flex;
   flex-direction: column;
   max-width: 600px;
 }
 
-.person__title {
+.aboutMe__title {
   margin: 0;
   padding: 0;
   font-size: 50px;
@@ -23,20 +23,20 @@
   letter-spacing: -0.04em;
 }
 
-.person__subtitle {
+.aboutMe__subtitle {
   margin: 18px 0 0;
   font-weight: 500;
   font-size: 18px;
   line-height: 20px;
 }
 
-.person__description {
+.aboutMe__description {
   margin: 26px 0 0;
   font-size: 14px;
   line-height: 22px;
 }
 
-.person__link {
+.aboutMe__link {
   text-decoration: none;
   color: inherit;
   margin: 99px 0 0;
@@ -45,7 +45,7 @@
   line-height: 17px;
 }
 
-.person__image {
+.aboutMe__image {
   object-fit: contain;
   width: 270px;
   height: 327px;

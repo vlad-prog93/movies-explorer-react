@@ -1,15 +1,15 @@
-.intro {
+.promo {
   background-color: #073042;
   padding: 75px 70px;
 }
 
-.intro__info {
+.promo__info {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
 }
 
-.intro__link {
+.promo__link {
   text-decoration: none;
   display: inline-block;
   margin-top: 84px;
@@ -24,13 +24,13 @@
   transition: .2s all linear;
 }
 
-.intro__link:hover {
+.promo__link:hover {
   border: 1px solid #2BE080;
   background-color: #2BE080;
   color: #000;
 }
 
-.intro__texts {
+.promo__texts {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -38,7 +38,7 @@
   max-width: 640px;
 }
 
-.intro__title {
+.promo__title {
   padding: 0;
   margin: 0;
   font-weight: 400;
@@ -47,7 +47,7 @@
   color: #FFF;
 }
 
-.intro__description {
+.promo__description {
   margin: 36px 0 0;
   padding: 0;
   font-weight: 400;

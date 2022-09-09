@@ -1,9 +1,9 @@
-.technology {
+.techs {
   padding: 100px 70px;
   background-color: #F5F5F5;
 }
 
-.technology__title {
+.techs__title {
   margin: 90px auto 0;
   padding: 0;
   font-size: 50px;
@@ -12,7 +12,7 @@
   letter-spacing: -0.04em;
 }
 
-.technology__description {
+.techs__description {
   margin: 26px auto 0;
   padding: 0;
   font-size: 14px;
@@ -22,7 +22,7 @@
   max-width: 460px;
 }
 
-.technology__lists {
+.techs__lists {
   list-style: none;
   margin: 100px auto 0;
   display: flex;
@@ -31,7 +31,7 @@
   gap: 10px;
 }
 
-.technology__list {
+.techs__list {
   background-color: #E8E8E8;
   border-radius: 10px;
   padding: 21px 0 22px;
@@ -40,6 +40,6 @@
   transition: .2s all linear;
 }
 
-.technology__list:hover {
+.techs__list:hover {
   transform: scale(1.1);
 }
