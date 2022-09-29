@@ -1,0 +1,36 @@
+.filterCheckbox {
+    margin-right: 14px;
+    appearance: none;
+    width: 36px;
+    height: 20px;
+    background: #ddd;
+    border-radius: 10px;
+    position: relative;
+    cursor: pointer;
+    outline: none;
+    transition: all .2s ease-in-out;
+
+    @media (max-width: 525px) {
+        margin-left: 20px;
+    }
+}
+
+.filterCheckbox:checked {
+    background: #2BE080;
+}
+
+.filterCheckbox:after {
+    position: absolute;
+    content: "";
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #fff;
+    left: 3px;
+    top: 2px;
+    transition: all .2s ease-in-out;
+}
+
+.filterCheckbox:checked:after {
+    left: calc(100% - 18px);
+}

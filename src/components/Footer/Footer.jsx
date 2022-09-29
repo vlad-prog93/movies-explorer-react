@@ -1,17 +1,17 @@
+import './Footer.scss';
+
 const Footer = () => {
   return (
-    <footer className='footer'>
-      <p className='footer__info'>Учебный проект Яндекс.Практикум х BeatFilm.</p>
-      <div className='footer__ref-data'>
-        <span className='footer__date'>&copy; {new Date().getFullYear()}</span>
-        <ul className='foooter__lists'>
-          <li className='foooter__list'>
-            <a className='footer__link' href='https://practicum.yandex.ru'>Яндекс.Практикум</a>
-          </li>
-          <li className='foooter__list'>
-            <a className='footer__link' href='https://github.com/vlad-prog93'>Github</a>
-          </li>
-        </ul>
+    <footer className="footer">
+      <div className="footer__container">
+        <p className="footer__text">Учебный проект Яндекс.Практикум х BeatFilm.</p>
+        <div className="footer__info">
+          <span className="footer__date">&#169; {new Date().getFullYear()}</span>
+          <nav className="footer__nav">
+            <a className="footer__nav-link" href="practicum.yandex.ru/">Яндекс.Практикум</a>
+            <a className="footer__nav-link" href="https://github.com/vlad-prog93">Github</a>
+          </nav>
+        </div>
       </div>
     </footer>
   )

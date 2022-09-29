@@ -1,0 +1,46 @@
+@import '../../styles/mixins';
+
+.auth {
+  margin: 70px auto;
+  width: 396px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  flex: 1;
+
+  @media (max-width: 768px) {
+    margin: 232px auto;
+  }
+
+  @media (max-width: 525px) {
+    margin: 56px auto;
+    width: 260px;
+    align-items: center;
+  }
+}
+
+.auth__logo {
+  height: 38px;
+
+  @media (max-width: 525px) {
+    align-self: center;
+  }
+}
+
+.auth__title {
+  margin: 40px 0;
+  font-size: 24px;
+  line-height: 29px;
+
+  @media (max-width: 525px) {
+    margin: 50px auto 80px;
+  }
+}
+
+.auth__message-error {
+  padding: 0;
+  margin: 0;
+  font-size: 10px;
+  line-height: 12px;
+  color: #FF3055;
+}

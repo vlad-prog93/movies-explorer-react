@@ -1,0 +1,29 @@
+@import '../../styles/mixins';
+
+.mybutton {
+  margin: 89px 0 17px;
+  background: #3456F3;
+  border: none;
+  border-radius: 3px;
+  width: 100%;
+  color: white;
+  padding: 13px;
+  cursor: pointer;
+  transition: .3s all linear;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 17px;
+
+  &:hover {
+    opacity: 0.8;
+  }
+
+  &:disabled {
+    background: $dark-grey;
+  }
+
+  @media (max-width: 525px) {
+    font-size: 12px;
+    line-height: 15px;
+  }
+}

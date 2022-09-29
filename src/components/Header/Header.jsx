@@ -1,16 +1,24 @@
-import { Link } from 'react-router-dom';
-import LogoImg from '../../images/header/logo.svg'
+import { useLocation } from "react-router-dom";
 
+// стили
+import "./Header.scss";
 
-const Header = () => {
+// компоненты
+import Logo from "../../ImgComponents/Logo";
+import Navigation from "../Navigation/Navigation";
+
+const Header = ({ burgerIsActive, toggleBurger }) => {
+  const location = useLocation();
+  const classHeader = location.pathname === "/" ? "header" : "header header_white";
+  const classHeaderContainer = location.pathname === "/" ? "header__container" : "header__container header__container_white";
+
   return (
-    <header className="header">
-      <Link to="/"><img src={LogoImg} alt='logo' /></Link>
-      <div className="header__auth-links">
-        <Link className="header__auth-link" to="/signup">Регистрация</Link>
-        <Link className="header__auth-link" to="/signin">Войти</Link>
-      </div>
-    </header>
+        <header className={classHeader}>
+          <div className={classHeaderContainer}>
+            <Logo />
+            <Navigation burgerIsActive={burgerIsActive} toggleBurger={e => toggleBurger(e)} />
+          </div>
+        </header >
   )
 };
 

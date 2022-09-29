@@ -1,0 +1,43 @@
+$grey: #E5E5E5;
+$lite_grey: #E8E8E8;
+$dark_grey: #A0A0A0;
+$brite_grey: #F5F5F5;
+$dark: #073042;
+$green: #2BE080;
+
+@mixin adaptiv_font-size_1280_780($one, $two) {
+  $k: ($one - $two) / (1280 - 768);
+  $c: ($one - $k * 1280)+px;
+  font-size: calc(#{$k} * 100vw + #{$c});
+}
+
+@mixin adaptiv_line-height_1280_780($one, $two) {
+  $k: ($one - $two) / (1280 - 768);
+  $c: ($one - $k * 1280)+px;
+  line-height: calc(#{$k} * 100vw + #{$c});
+}
+
+@mixin adaptiv_width_1280_780($one, $two) {
+  $k: ($one - $two) / (1280 - 768);
+  $c: ($one - $k * 1280)+px;
+  width: calc(#{$k} * 100vw + #{$c});
+}
+
+
+@mixin adaptiv_font-size_768_320($one, $two) {
+  $k: ($one - $two) / (768 - 320);
+  $c: ($one - $k * 768)+px;
+  font-size: calc(#{$k} * 100vw + #{$c});
+}
+
+@mixin adaptiv_line-height_768_320($one, $two) {
+  $k: ($one - $two) / (768 - 320);
+  $c: ($one - $k * 768)+px;
+  line-height: calc(#{$k} * 100vw + #{$c});
+}
+
+@mixin adaptiv_width_768_320($one, $two) {
+  $k: ($one - $two) / (768 - 320);
+  $c: ($one - $k * 768)+px;
+  width: calc(#{$k} * 100vw + #{$c});
+}
