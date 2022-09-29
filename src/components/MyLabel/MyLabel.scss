@@ -1,0 +1,12 @@
+@import '../../styles/mixins';
+
+.myLabel {
+  padding: 0;
+  margin: 24px 0 0;
+  font-size: 10px;
+  line-height: 12px;
+  color: $dark_grey;
+  transform: translateY(0);
+  transition: .2s all linear;
+
+}

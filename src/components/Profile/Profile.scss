@@ -1,0 +1,147 @@
+@import '../../styles/mixins';
+
+.profile {
+    margin: 46px auto 100px;
+    padding: 28px 0 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 410px;
+
+    @media (max-width: 768px) {
+        margin: 236px auto 100px;
+        padding: 0;
+    }
+
+    @media (max-width: 525px) {
+        margin: 71px auto 100px;
+        width: 260px;
+    }
+}
+
+.profile__title {
+    margin: 0;
+    padding: 0;
+    font-size: 24px;
+    line-height: 29px;
+}
+
+.profile__form {
+    margin: 104px 0 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    flex: 1;
+
+    @media (max-width: 768px) {
+        margin: 76px auto 16px;
+    }
+
+    @media (max-width: 525px) {
+        margin: 60px auto 16px;
+    }
+}
+
+.profile__inputs-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.profile__label {
+    padding: 0;
+    margin: 0;
+    font-size: 10px;
+    line-height: 12px;
+    color: $dark_grey;
+    transform: translateY(0);
+    transition: .2s all linear;
+
+    &:last-of-type {
+        margin-top: 20px;
+    }
+}
+
+.profile__label_disabled {
+    margin: 0;
+    font-size: 11px;
+    line-height: 13px;
+    color: #000000;
+    transform: translateY(20px);
+    font-weight: 500;
+    transition: .3s all linear;
+
+}
+
+.profile__input {
+    margin: 0;
+    padding: 5px 0 19px;
+    font-size: 14px;
+    line-height: 17px;
+    width: 100%;
+    border: none;
+    outline: none;
+    border-bottom: 1px $lite_grey solid;
+    transition: .3s all linear;
+
+    &:focus {
+        border-bottom: 1px #3456F3 solid;
+        color: #3456F3;
+    }
+
+    &:disabled {
+        font-size: 11px;
+        line-height: 13px;
+        text-align: right;
+        background-color: white;
+        color: black;
+        transition: .3s all linear;
+
+
+        &:last-of-type {
+            border: none;
+        }
+    }
+
+}
+
+.profile__input_error {
+    color: #FF3055;
+}
+
+.profile__btn-edit {
+    font-size: 13px;
+    line-height: 16px;
+    border: none;
+    background-color: white;
+    margin-top: 198px;
+    cursor: pointer;
+
+    @media (max-width: 768px) {
+        margin-top: 189px;
+    }
+
+    @media (max-width: 525px) {
+        font-size: 12px;
+        line-height: 15px;
+        margin-top: 356px;
+    }
+}
+
+.profile__btn-exit {
+    font-size: 13px;
+    line-height: 16px;
+    color: #FF3055;
+    border: none;
+    background-color: white;
+    cursor: pointer;
+
+    @media (max-width: 525px) {
+        font-size: 12px;
+        line-height: 15px;
+    }
+
+
+}

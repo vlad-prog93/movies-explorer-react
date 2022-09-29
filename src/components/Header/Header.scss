@@ -1,0 +1,30 @@
+@import '../../styles/mixins';
+
+.header {
+  background-color: $dark;
+  padding: 18px 0;
+  width: 100%;
+}
+
+.header_white {
+  background-color: white;
+  padding: 14px 0;
+}
+
+.header__container {
+  margin: 0 auto;
+  width: 89%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  @media (max-width: 1280px) {
+    @include adaptiv_width_1280_780(1140, 708);
+  }
+
+  @media (max-width: 768px) {
+    @include adaptiv_width_768_320(708, 292);
+  }
+}
+
+.header__logo {}

@@ -1,0 +1,22 @@
+.movies__btn {
+    min-width: 320px;
+    height: 36px;
+    background-color: #f9f9f9;
+    border-radius: 6px;
+    font-size: 12px;
+    line-height: 15px;
+    text-align: center;
+    color: #000000;
+    border: none;
+    cursor: pointer;
+    transition: .3s all linear;
+
+    &:hover {
+        background-color: #E8E8E8;
+    }
+
+    @media (max-width: 525px) {
+        min-width: 240px;
+        margin-bottom: 10px;
+    }
+}
