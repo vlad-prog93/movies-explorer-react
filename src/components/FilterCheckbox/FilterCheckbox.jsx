@@ -3,7 +3,7 @@ import "./FilterCheckbox.scss";
 
 const FilterCheckbox = () => {
     return (
-        <input type="checkbox" class="filterCheckbox" />
+        <input type="checkbox" className="filterCheckbox" />
     )
 }
 

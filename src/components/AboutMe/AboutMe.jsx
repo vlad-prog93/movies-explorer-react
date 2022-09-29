@@ -21,7 +21,7 @@ const AboutMe = () => {
               постоянной работы.</p>
             <a className="aboutMe__link" href="https://github.com/vlad-prog" target="_blank" rel="noreferrer">Github</a>
           </div>
-          <Avatar class="aboutMe__img" />
+          <Avatar className="aboutMe__img" />
         </div>
       </div>
     </section>
