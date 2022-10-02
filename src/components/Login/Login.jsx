@@ -11,15 +11,20 @@ import FormAuth from "../FormAuth/FormAuth";
 // хуки
 import useInput from "../../hooks/useInput";
 
-const Login = () => {
+const Login = (props) => {
   const email = useInput("", {isEmail: true});
   const password = useInput("", {minLength: 2, maxLength: 30});
+
+  const signIn = (e) => {
+    e.preventDefault();
+    props.signIn(email.value, password.value);
+  }
 
   return (
     <section className="auth">
       <Logo className="auth__logo" />
       <TitleAuth>Рады видеть!</TitleAuth>
-      <FormAuth email={email} password={password}>
+      <FormAuth authError={props.authError} signIn={signIn} email={email} password={password}>
       <MyLabel nameInput="Email" text="E-mail" />
         <MyInput value={email.value} onBlur={e => email.onBlur(e)} onFocus={e => email.onFocus(e)} onChange={e => email.onChange(e)} nameInput="Email" type="text" placeholder="Введите e-mail" />
         { email.isEmailError.state && (email.isDirty || email.isFocus ) && <span className="auth__message-error">{email.isEmailError.message}</span> }

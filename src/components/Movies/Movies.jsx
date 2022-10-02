@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 // стили
 import "./Movies.scss";
 
@@ -7,25 +9,43 @@ import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import MoviesCard from "../MoviesCard/MoviesCard";
 
 // временно карточки
-import Card1 from "../../images/png_films/film_1.png";
-import Card2 from "../../images/png_films/film_2.png";
-import Card3 from "../../images/png_films/film_3.png";
-import Card4 from "../../images/png_films/film_4.png";
-import Card7 from "../../images/png_films/film_7.png";
+import moviesApi from "../../utils/moviesApi";
+import { URL_MOVIES } from "../../utils/constants";
+
+// утилиты
+import { convertTime } from "../../utils/tools";
+
 
 const Movies = () => {
+  const [movies, setMovies] = useState([]);
+
+  const getMovies = async (shortMovies, valueSearch) => {
+    try {
+      const movies = await moviesApi.get();
+      const filtredOnShortMovies = shortMovies ? movies.filter((movie) => movie.duration <= 60) : movies;
+      const filtredOnTextAndShortMovies = filtredOnShortMovies.filter((movie) => movie.nameRU.toLowerCase().includes(valueSearch.toLowerCase()))
+      console.log(filtredOnTextAndShortMovies)
+      setMovies(filtredOnTextAndShortMovies)
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
+
 
   return (
     <>
-      <SearchForm />
-      <MoviesCardList>
-        <MoviesCard src={Card1} save={true} name="33 слова о дизайне" time={"1ч42м"} />
-        <MoviesCard src={Card2} name="33 слова о дизайне" time={"1ч42м"} />
-        <MoviesCard src={Card3} save={true} name="33 слова о дизайне" time={"1ч42м"} />
-        <MoviesCard src={Card4} name="33 слова о дизайне" time={"1ч42м"} />
-        <MoviesCard src={Card7} name="33 слова о дизайне" time={"1ч42м"} />
-      </MoviesCardList>
-      <button className="movies__btn">Ещё</button>
+      <SearchForm getMovies={getMovies} />
+      {movies.length < 1
+        ? <h1>Нажмите на "Ещё", чтобы показать карточки</h1>
+        : <>
+        <MoviesCardList>
+        {movies.map((movie, ind) => <MoviesCard src={`${URL_MOVIES}${movie.image.url}`} save={true} name={movie.nameRU} time={convertTime(movie.duration)} key={ind} />)}
+        </MoviesCardList>
+        <button type="button" onClick={getMovies} className="movies__btn">Ещё</button>
+        </>
+      }
+      
     </>
   )
 }

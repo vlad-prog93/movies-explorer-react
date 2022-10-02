@@ -6,11 +6,33 @@ import "./Navigation.scss";
 // компоненты
 import Account from "../../ImgComponents/Account";
 
-const Navigation = ({burgerIsActive, toggleBurger}) => {
+const Navigation = ({burgerIsActive, toggleBurger, isLogin}) => {
     const classBtnBurger = burgerIsActive ? "burger-btn active" : "burger-btn";
     const location = useLocation();
 
     if (location.pathname === "/") {
+        if (isLogin) {
+            return (
+                <nav className="nav">
+                <ul className="nav__list">
+                    <li className="nav__item">
+                        <NavLink className="nav__link" to="/movies">Фильмы</NavLink>
+                    </li>
+                    <li className="nav__item">
+                        <NavLink className="nav__link" to="/saved-movies">Сохранённые фильмы</NavLink>
+                    </li>
+                    <li className="nav__item">
+                    <NavLink className="nav__link nav__link-account" to="/profile">
+                    <span>Аккаунт</span>
+                    <Account className="nav__account" alt="icon" />
+                </NavLink>
+                    </li>
+                    
+                </ul>
+                
+            </nav>
+            )
+        }
         return (
             <nav className="nav">
                 <ul className="nav__list">

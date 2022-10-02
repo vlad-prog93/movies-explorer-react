@@ -7,7 +7,7 @@ import "./Header.scss";
 import Logo from "../../ImgComponents/Logo";
 import Navigation from "../Navigation/Navigation";
 
-const Header = ({ burgerIsActive, toggleBurger }) => {
+const Header = ({ burgerIsActive, toggleBurger, isLogin }) => {
   const location = useLocation();
   const classHeader = location.pathname === "/" ? "header" : "header header_white";
   const classHeaderContainer = location.pathname === "/" ? "header__container" : "header__container header__container_white";
@@ -16,7 +16,7 @@ const Header = ({ burgerIsActive, toggleBurger }) => {
         <header className={classHeader}>
           <div className={classHeaderContainer}>
             <Logo />
-            <Navigation burgerIsActive={burgerIsActive} toggleBurger={e => toggleBurger(e)} />
+            <Navigation isLogin={isLogin} burgerIsActive={burgerIsActive} toggleBurger={e => toggleBurger(e)} />
           </div>
         </header >
   )

@@ -8,7 +8,8 @@
 
 .element__img {
   width: 100%;
-  object-fit: contain;
+  height: 100%;
+  object-fit: cover;
 }
 
 .element__info {

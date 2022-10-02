@@ -2,7 +2,7 @@ import "./MyButton.scss";
 
 const MyButton = (props) => {
     return (
-        <button disabled={ props.disabled } className="mybutton">{props.children}</button>
+        <button disabled={ props.disabled } className="mybutton" {...props}>{props.children}</button>
     )
 }
 

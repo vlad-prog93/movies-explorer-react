@@ -5,29 +5,35 @@ import "./Profile.scss";
 
 // хуки
 import useInput from "../../hooks/useInput";
+import { useContext } from "react";
+import currentUserContext from "../../contexts/currentUserContext";
 
-const Profile = () => {
-    const name = useInput("Виталий", { isEmpty: true });
-    const email = useInput("pochta@yandex.ru", { isEmail: true });
+const Profile = (props) => {
+    const currentUser = useContext(currentUserContext);
+
+    const name = useInput(currentUser.name, { isEmpty: true });
+    const email = useInput(currentUser.email, { isEmail: true });
+
     const [isInputDisabled, setIsInputDisabled] = useState(true)
     const classInputName = name.isValidInput ? "profile__input" : "profile__input profile__input_error"
     const classInputEmail = email.isValidInput ? "profile__input" : "profile__input profile__input_error"
     const classLabel = !isInputDisabled ? "profile__label" : "profile__label_disabled"
     
-    const editInfoProfile = (e) => {
+    const editUser = (e) => {
         e.preventDefault()
         setIsInputDisabled(false)
     }
 
-    const saveInfoProfile = (e) => {
+    const updateUser = (e) => {
         e.preventDefault()
+        props.updateUser(name.value, email.value);
         setIsInputDisabled(true)
     }
 
     return (
         <>
             <section className="profile">
-                <h1 className="profile__title">Привет, Виталий!</h1>
+                <h1 className="profile__title">Привет, {name.value}!</h1>
                 <form className="profile__form">
                     <div className="profile__inputs-container">
                         <label className={classLabel} htmlFor="name">Имя</label>
@@ -59,11 +65,11 @@ const Profile = () => {
                         {email.isEmailError.state && (email.isDirty || email.isFocus) && <span className="auth__message-error">{email.isEmailError.message}</span>}
                     </div>
                     {!isInputDisabled 
-                    ? <button onClick={e => saveInfoProfile(e)} className="profile__btn-edit" disabled={ !email.isValidInput || !name.isValidInput }>Сохранить</button>
-                    : <button onClick={e => editInfoProfile(e)} className="profile__btn-edit">Редактировать</button>
+                    ? <button onClick={e => updateUser(e)} className="profile__btn-edit" disabled={ !email.isValidInput || !name.isValidInput }>Сохранить</button>
+                    : <button onClick={e => editUser(e)} className="profile__btn-edit">Редактировать</button>
                     }
                 </form>
-                <button className="profile__btn-exit">Выйти из аккаунта</button>
+                <button onClick={e => props.signOut(e)} className="profile__btn-exit">Выйти из аккаунта</button>
             </section>
         </>
     )

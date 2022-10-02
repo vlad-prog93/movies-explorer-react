@@ -1,9 +1,9 @@
 // стили
 import "./FilterCheckbox.scss";
 
-const FilterCheckbox = () => {
+const FilterCheckbox = (props) => {
     return (
-        <input type="checkbox" className="filterCheckbox" />
+        <input type="checkbox" className="filterCheckbox" checked={props.checked} onChange={props.onChange} />
     )
 }
 

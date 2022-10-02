@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 //стили
 import "./SearchForm.scss";
 
@@ -5,19 +7,27 @@ import "./SearchForm.scss";
 import Search from "../../ImgComponents/Search";
 import FilterCheckbox from "../FilterCheckbox/FilterCheckbox";
 
-const SearchForm = () => {
+const SearchForm = (props) => {
+    const [isShortMovies, setIsShortMovies] = useState(false);
+    const [valueSearch, setValueSearch] = useState('');
+
+    const getMovies = (e, isShortMovies, valueSearch) => {
+        e.preventDefault();
+        props.getMovies(isShortMovies, valueSearch);
+    }
+
     return (
         <div className="search">
             <div className="search__container">
                 <form className="search__form">
                     <div className="search__input-container">
                         <label className="search__icon" htmlFor="search"><Search /></label>
-                        <input id="search" className="search__input" type="search" placeholder="Фильм" />
-                        <button className="search__button " />
+                        <input value={valueSearch} onChange={(e) => setValueSearch(e.target.value)} id="search" className="search__input" type="search" placeholder="Фильм" />
+                        <button onClick={e => getMovies(e, isShortMovies, valueSearch)} className="search__button " />
                         <div className="search__br" />
                     </div>
                     <div className="search__checkbox-container">
-                        <FilterCheckbox />
+                        <FilterCheckbox checked={isShortMovies} onChange={() => setIsShortMovies(!isShortMovies)} />
                         <span className="search__checkbox-mark">Короткометражки</span>
                     </div>
                 </form>
