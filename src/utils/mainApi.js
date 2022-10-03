@@ -27,6 +27,36 @@ class MainApi {
         return this._checkResponce(res);
     }
 
+    async getMovies() {
+        const res = await fetch(`${this._url}/api/movies`, {
+            method: "GET",
+            headers: this._headers(),
+        });
+
+        return this._checkResponce(res);
+    }
+
+    async saveMovie(infoMovie) {
+        const res = await fetch(`${this._url}/api/movies`, {
+            method: "POST",
+            headers: this._headers(),
+            body: JSON.stringify({
+                ...infoMovie
+            })
+        });
+
+        return this._checkResponce(res);
+    }
+
+    async removeMovie(id) {
+        const res = await fetch(`${this._url}/api/movies/${id}`, {
+            method: "DELETE",
+            headers: this._headers(),
+        });
+
+        return this._checkResponce(res);
+    }
+
     _headers() {
         return {
             "Content-Type": "application/json",
