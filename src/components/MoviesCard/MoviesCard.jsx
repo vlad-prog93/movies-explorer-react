@@ -21,7 +21,7 @@ const MoviesCard = (props) => {
 
     return (
         <article className="element">
-            <img className="element__img" src={srcImg} alt="movie" />
+            <a className="element__link" href={props.movie.trailerLink} target="_blank"><img className="element__img" src={srcImg} alt="movie" /></a>
             <div className="element__info">
                 <p className="element__title">{props.movie.nameRU}</p>
                 {location.pathname === "/movies" && <button onClick={e => props.saveOrRemoveMovie(props.movie)} type="button" className={classBtn} />}

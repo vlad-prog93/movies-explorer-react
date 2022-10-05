@@ -7,13 +7,21 @@ import "./Movies.scss";
 import SearchForm from "../SearchForm/SearchForm";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import MoviesCard from "../MoviesCard/MoviesCard";
+import useScreenSize from "../../hooks/useScreenSize";
 
 const Movies = (props) => {
+  const windowSize = useScreenSize();
+
+  const getSize = (e) => {
+    console.log(windowSize.width);
+  }
+
+
 
   useEffect(() => {
     const fetchData = async () => {
       await props.getSavedMovies();
-      console.log("Вызавается она")
+      await props.getMovies();
     }
     fetchData();
   }, [])
@@ -21,14 +29,14 @@ const Movies = (props) => {
 
   return (
     <>
-      <SearchForm getMovies={props.getMovies} />
-      {props.movies.length < 1
+      <SearchForm getFilteredMovies={props.getFilteredMovies} />
+      {props.filtredMovies.length < 1
         ? <h1>Нажмите на "Ещё", чтобы показать карточки</h1>
         : <>
         <MoviesCardList>
-        {props.movies.map((movie) => <MoviesCard movie={movie} savedMovies={props.savedMovies} saveOrRemoveMovie={props.saveOrRemoveMovie} key={movie.id} />)}
+        {props.filtredMovies.map((movie) => <MoviesCard movie={movie} savedMovies={props.savedMovies} saveOrRemoveMovie={props.saveOrRemoveMovie} key={movie.id} />)}
         </MoviesCardList>
-        <button type="button" onClick={props.getMovies} className="movies__btn">Ещё</button>
+        <button type="button" onClick={e => getSize(e)} className="movies__btn">Ещё</button>
         </>
       }
       

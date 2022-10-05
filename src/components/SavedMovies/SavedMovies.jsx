@@ -20,12 +20,12 @@ const SavedMovies = (props) => {
 
   return (
     <>
-      <SearchForm />
+      <SearchForm getFilteredSavedMovies={props.getFilteredSavedMovies} />
       {isLoading 
       ? "Идет загрузка" 
       :
       <MoviesCardList>
-        {props.savedMovies.length < 1 ? "Сохраненных фильмов нет" : props.savedMovies.map((movie) => <MoviesCard movie={movie} removeMovie={props.removeMovie} key={movie._id} />)}
+        {props.filtredSavedMovies.length < 1 ? "Сохраненных фильмов нет" : props.filtredSavedMovies.map((movie) => <MoviesCard movie={movie} removeMovie={props.removeMovie} key={movie._id} />)}
       </MoviesCardList>
       }
     </>

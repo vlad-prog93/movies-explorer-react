@@ -37,31 +37,42 @@ function App() {
   const [authError, setAuthError] = useState(false);
 
   const [movies, setMovies] = useState([]);
+  const [filtredMovies, setFiltredMovies] = useState([]);
   const [savedMovies, setSavedMovies] = useState([]);
+  const [filtredSavedMovies, setFiltredSavedMovies] = useState([]);
 
-  const getMovies = async (shortMovies, valueSearch) => {
+  const getMovies = async () => {
     try {
       const movies = await moviesApi.get();
-      const filtredOnShortMovies = shortMovies ? movies.filter((movie) => movie.duration <= 60) : movies;
-      const filtredOnTextAndShortMovies = filtredOnShortMovies.filter((movie) => movie.nameRU.toLowerCase().includes(valueSearch.toLowerCase()))
-      console.log(filtredOnTextAndShortMovies)
-      setMovies(filtredOnTextAndShortMovies)
+      setMovies(movies);
     } catch (e) {
       console.log(e)
     }
+  }
+
+  const getFilteredMovies = (shortMovies, valueSearch) => {
+    const filtredOnShortMovies = shortMovies ? movies.filter((movie) => movie.duration <= 40) : movies;
+      const filtredOnTextAndShortMovies = filtredOnShortMovies.filter((movie) => movie.nameRU.toLowerCase().includes(valueSearch.toLowerCase()))
+      setFiltredMovies(filtredOnTextAndShortMovies)
   }
 
   const getSavedMovies = async () => {
     try {
       const { movies } = await mainApi.getMovies();
       setSavedMovies(movies);
+      setFiltredSavedMovies(movies);
     } catch (e) {
       console.log(e);
     }
   }
 
+  const getFilteredSavedMovies = (shortMovies, valueSearch) => {
+    const filtredOnShortSavedMovies = shortMovies ? savedMovies.filter((movie) => movie.duration <= 40) : savedMovies;
+    const filtredOnTextAndShortMovies = filtredOnShortSavedMovies.filter((movie) => movie.nameRU.toLowerCase().includes(valueSearch.toLowerCase()));
+    setFiltredSavedMovies(filtredOnTextAndShortMovies);
+  }
+
   const saveOrRemoveMovie = async (dataMovie) => {
-    
     const movies = savedMovies.filter((movie) => movie.movieId === dataMovie.id)
     if (movies.length !== 0) {
       await removeMovie(movies[0])
@@ -73,7 +84,8 @@ function App() {
   const removeMovie = async (dataMovie) => {
     try {
       const { _id}  = await mainApi.removeMovie(dataMovie._id);
-      setSavedMovies([...savedMovies.filter((movie) => toString(movie._id) !== toString(_id))]);
+      setSavedMovies([...savedMovies.filter((movie) => movie._id !== _id)]);
+      setFiltredSavedMovies([...savedMovies.filter((movie) => movie._id !== _id)])
     } catch (e) {
       console.log(e);
     }
@@ -100,17 +112,6 @@ function App() {
       console.log(e);
     }
   }
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -202,8 +203,8 @@ function App() {
         <Route path={paths.home} element={<Main burgerIsActive={burgerIsActive} toggleBurger={toggleBurger} />} />
         <Route path={paths.signUp} element={<Register authError={authError} signUp={signUp} />} />
         <Route path={paths.signIn} element={<Login authError={authError} signIn={signIn} />} />
-        <Route path={paths.movies} element={<ProtectedRoute component={Movies} saveOrRemoveMovie={saveOrRemoveMovie} getSavedMovies={getSavedMovies} movies={movies} getMovies={getMovies} isLogin={isLogin} savedMovies={savedMovies} setSavedMovies={setSavedMovies} burgerIsActive={burgerIsActive} toggleBurger={toggleBurger} />} />
-        <Route path={paths.savedMovies} element={<ProtectedRoute component={SavedMovies} removeMovie={removeMovie} getSavedMovies={getSavedMovies}  savedMovies={savedMovies} setSavedMovies={setSavedMovies} isLogin={isLogin} burgerIsActive={burgerIsActive} toggleBurger={toggleBurger} />} />
+        <Route path={paths.movies} element={<ProtectedRoute component={Movies} filtredMovies={filtredMovies} getFilteredMovies={getFilteredMovies} saveOrRemoveMovie={saveOrRemoveMovie} getSavedMovies={getSavedMovies} movies={movies} getMovies={getMovies} isLogin={isLogin} savedMovies={savedMovies} setSavedMovies={setSavedMovies} burgerIsActive={burgerIsActive} toggleBurger={toggleBurger} />} />
+        <Route path={paths.savedMovies} element={<ProtectedRoute component={SavedMovies} filtredSavedMovies={filtredSavedMovies} removeMovie={removeMovie} getSavedMovies={getSavedMovies}  savedMovies={savedMovies} getFilteredSavedMovies={getFilteredSavedMovies} setSavedMovies={setSavedMovies} isLogin={isLogin} burgerIsActive={burgerIsActive} toggleBurger={toggleBurger} />} />
         <Route path={paths.profile} element={<ProtectedRoute component={Profile} isLogin={isLogin} updateUser={updateUser} signOut={signOut} />} />
         <Route path="/*" element={<PageNotFound />} />
       </Routes>

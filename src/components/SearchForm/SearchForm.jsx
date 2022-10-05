@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useLocation } from "react-router-dom";
 
 //стили
 import "./SearchForm.scss";
@@ -8,12 +9,18 @@ import Search from "../../ImgComponents/Search";
 import FilterCheckbox from "../FilterCheckbox/FilterCheckbox";
 
 const SearchForm = (props) => {
+    const location = useLocation();
     const [isShortMovies, setIsShortMovies] = useState(false);
     const [valueSearch, setValueSearch] = useState('');
 
     const getMovies = (e, isShortMovies, valueSearch) => {
         e.preventDefault();
-        props.getMovies(isShortMovies, valueSearch);
+        if (location.pathname === "/movies") {
+            props.getFilteredMovies(isShortMovies, valueSearch);
+            //props.getMovies(isShortMovies, valueSearch);
+        } else if (location.pathname === "/saved-movies") {
+            props.getFilteredSavedMovies(isShortMovies, valueSearch);
+        }
     }
 
     return (
