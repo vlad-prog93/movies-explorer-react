@@ -10,7 +10,7 @@ const PageNotFound = () => {
     <section className="pageError">
       <h1 className="pageError__title">404</h1>
       <p className="pageError__info">Страница не найдена</p>
-      <NavLink className="pageError__link" onClick={() => navigate(-1)}>Назад</NavLink>
+      <NavLink className="pageError__link" to={navigate(-1)}>Назад</NavLink>
     </section>
   )
 }

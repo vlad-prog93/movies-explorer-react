@@ -7,16 +7,10 @@ import "./Movies.scss";
 import SearchForm from "../SearchForm/SearchForm";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import MoviesCard from "../MoviesCard/MoviesCard";
-import useScreenSize from "../../hooks/useScreenSize";
+import Preloader from "../Preloader/Preloader";
+
 
 const Movies = (props) => {
-  const windowSize = useScreenSize();
-
-  const getSize = (e) => {
-    console.log(windowSize.width);
-  }
-
-
 
   useEffect(() => {
     const fetchData = async () => {
@@ -28,19 +22,27 @@ const Movies = (props) => {
 
 
   return (
-    <>
-      <SearchForm getFilteredMovies={props.getFilteredMovies} />
-      {props.filtredMovies.length < 1
-        ? <h1>Нажмите на "Ещё", чтобы показать карточки</h1>
-        : <>
-        <MoviesCardList>
-        {props.filtredMovies.map((movie) => <MoviesCard movie={movie} savedMovies={props.savedMovies} saveOrRemoveMovie={props.saveOrRemoveMovie} key={movie.id} />)}
-        </MoviesCardList>
-        <button type="button" onClick={e => getSize(e)} className="movies__btn">Ещё</button>
-        </>
+    <section className="movies">
+      <SearchForm
+        valueSearch={props.valueInputSearchMovies}
+        setValueSearch={props.setValueInputSearchMovies}
+        isShortMovies={props.isShortMovies}
+        setIsShortMovies={props.setIsShortMovies}
+        getFilteredMovies={props.getFilteredMovies} />
+      {
+
+        props.isLoading
+          ? <Preloader />
+          : (props.renderMovies.length < 1
+            ? <h1>Ничего не найдено</h1>
+            : <>
+              <MoviesCardList>
+                {props.renderMovies.map((movie) => <MoviesCard movie={movie} savedMovies={props.savedMovies} saveOrRemoveMovie={props.saveOrRemoveMovie} key={movie.id} />)}
+              </MoviesCardList>
+              <button type="button" onClick={props.addYetMovies} className="movies__btn">Ещё</button>
+            </>)
       }
-      
-    </>
+    </section>
   )
 }
 

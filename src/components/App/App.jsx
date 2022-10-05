@@ -27,9 +27,17 @@ import mainApi from "../../utils/mainApi";
 import moviesApi from "../../utils/moviesApi";
 import { URL_MOVIES } from "../../utils/constants";
 
+// хуки
+import useScreenSize from "../../hooks/useScreenSize";
+import useAddMovies from "../../hooks/useAddMovies";
+
+
 
 function App() {
+  const windowSize = useScreenSize();
   const navigate = useNavigate();
+
+  const [isLoading, setIsLoading] = useState(false)
 
   const [isLogin, setIsLogin] = useState(false);
   const [burgerIsActive, setBurgerIsActive] = useState(false);
@@ -38,31 +46,57 @@ function App() {
 
   const [movies, setMovies] = useState([]);
   const [filtredMovies, setFiltredMovies] = useState([]);
+  const [renderMovies, setRenderMovies] = useState([]);
+
   const [savedMovies, setSavedMovies] = useState([]);
   const [filtredSavedMovies, setFiltredSavedMovies] = useState([]);
 
+  const [valueInputSearchMovies, setValueInputSearchMovies] = useState('');
+  const [isShortMovies, setIsShortMovies] = useState(false);
+
+  const [valueInputSearchSavedMovies, setValueInputSearchSavedMovies] = useState('');
+  const [isShortSavedMovies, setIsShortSavedMovies] = useState(false);
+
+  const [addYetMovies, getYetMovies] = useAddMovies(windowSize.width);
+
   const getMovies = async () => {
     try {
+      setIsLoading(true);
       const movies = await moviesApi.get();
       setMovies(movies);
     } catch (e) {
       console.log(e)
+    } finally {
+      setIsLoading(false);
     }
   }
 
+  useEffect(() => {
+    if (windowSize.width >= 1280) {
+      setRenderMovies(filtredMovies.slice(0, getYetMovies["1280"]))
+    } else if (windowSize.width >= 768) {
+      setRenderMovies(filtredMovies.slice(0, getYetMovies["768"]))
+    } else if (windowSize.width >= 320) {
+      setRenderMovies(filtredMovies.slice(0, getYetMovies["320"]))
+    }
+  }, [windowSize, filtredMovies, getYetMovies])
+
   const getFilteredMovies = (shortMovies, valueSearch) => {
     const filtredOnShortMovies = shortMovies ? movies.filter((movie) => movie.duration <= 40) : movies;
-      const filtredOnTextAndShortMovies = filtredOnShortMovies.filter((movie) => movie.nameRU.toLowerCase().includes(valueSearch.toLowerCase()))
-      setFiltredMovies(filtredOnTextAndShortMovies)
+    const filtredOnTextAndShortMovies = filtredOnShortMovies.filter((movie) => movie.nameRU.toLowerCase().includes(valueSearch.toLowerCase()));
+    setFiltredMovies(filtredOnTextAndShortMovies)
   }
 
   const getSavedMovies = async () => {
     try {
+      setIsLoading(true);
       const { movies } = await mainApi.getMovies();
       setSavedMovies(movies);
       setFiltredSavedMovies(movies);
     } catch (e) {
       console.log(e);
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -83,7 +117,7 @@ function App() {
 
   const removeMovie = async (dataMovie) => {
     try {
-      const { _id}  = await mainApi.removeMovie(dataMovie._id);
+      const { _id } = await mainApi.removeMovie(dataMovie._id);
       setSavedMovies([...savedMovies.filter((movie) => movie._id !== _id)]);
       setFiltredSavedMovies([...savedMovies.filter((movie) => movie._id !== _id)])
     } catch (e) {
@@ -106,7 +140,7 @@ function App() {
         nameRU: dataMovie.nameRU,
         nameEN: dataMovie.nameEN
       }
-      const {movie} = await mainApi.saveMovie(newMovie);
+      const { movie } = await mainApi.saveMovie(newMovie);
       setSavedMovies([...savedMovies, movie])
     } catch (e) {
       console.log(e);
@@ -156,7 +190,7 @@ function App() {
     try {
       const res = await mainApi.updateUser(name, email)
       setCurrentUser({ ...currentUser, name: res.name, email: res.email });
-    } catch(e) {
+    } catch (e) {
       setAuthError(true);
       console.log(e);
     }
@@ -174,7 +208,7 @@ function App() {
 
   const RoutesFooter = () => useRoutes(
     [paths.home, paths.movies, paths.savedMovies].map((path, ind) => {
-      return { path: path, element: <Footer />, key: ind}
+      return { path: path, element: <Footer />, key: ind }
     }
     ))
 
@@ -203,8 +237,42 @@ function App() {
         <Route path={paths.home} element={<Main burgerIsActive={burgerIsActive} toggleBurger={toggleBurger} />} />
         <Route path={paths.signUp} element={<Register authError={authError} signUp={signUp} />} />
         <Route path={paths.signIn} element={<Login authError={authError} signIn={signIn} />} />
-        <Route path={paths.movies} element={<ProtectedRoute component={Movies} filtredMovies={filtredMovies} getFilteredMovies={getFilteredMovies} saveOrRemoveMovie={saveOrRemoveMovie} getSavedMovies={getSavedMovies} movies={movies} getMovies={getMovies} isLogin={isLogin} savedMovies={savedMovies} setSavedMovies={setSavedMovies} burgerIsActive={burgerIsActive} toggleBurger={toggleBurger} />} />
-        <Route path={paths.savedMovies} element={<ProtectedRoute component={SavedMovies} filtredSavedMovies={filtredSavedMovies} removeMovie={removeMovie} getSavedMovies={getSavedMovies}  savedMovies={savedMovies} getFilteredSavedMovies={getFilteredSavedMovies} setSavedMovies={setSavedMovies} isLogin={isLogin} burgerIsActive={burgerIsActive} toggleBurger={toggleBurger} />} />
+        <Route path={paths.movies} element={<ProtectedRoute
+          component={Movies}
+          renderMovies={renderMovies}
+          valueInputSearchMovies={valueInputSearchMovies}
+          setValueInputSearchMovies={setValueInputSearchMovies}
+          isShortMovies={isShortMovies}
+          setIsShortMovies={setIsShortMovies}
+          isLoading={isLoading}
+          filtredMovies={filtredMovies}
+          getFilteredMovies={getFilteredMovies}
+          saveOrRemoveMovie={saveOrRemoveMovie}
+          getSavedMovies={getSavedMovies}
+          movies={movies}
+          getMovies={getMovies}
+          isLogin={isLogin}
+          savedMovies={savedMovies}
+          setSavedMovies={setSavedMovies}
+          burgerIsActive={burgerIsActive}
+          toggleBurger={toggleBurger} 
+          addYetMovies={addYetMovies} />} />
+        <Route path={paths.savedMovies} element={<ProtectedRoute
+          component={SavedMovies}
+          valueInputSearchSavedMovies={valueInputSearchSavedMovies}
+          setValueInputSearchSavedMovies={setValueInputSearchSavedMovies}
+          isShortSavedMovies={isShortSavedMovies}
+          setIsShortSavedMovies={setIsShortSavedMovies}
+          isLoading={isLoading}
+          filtredSavedMovies={filtredSavedMovies}
+          removeMovie={removeMovie}
+          getSavedMovies={getSavedMovies}
+          savedMovies={savedMovies}
+          getFilteredSavedMovies={getFilteredSavedMovies}
+          setSavedMovies={setSavedMovies}
+          isLogin={isLogin}
+          burgerIsActive={burgerIsActive}
+          toggleBurger={toggleBurger} />} />
         <Route path={paths.profile} element={<ProtectedRoute component={Profile} isLogin={isLogin} updateUser={updateUser} signOut={signOut} />} />
         <Route path="/*" element={<PageNotFound />} />
       </Routes>

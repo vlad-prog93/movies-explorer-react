@@ -1,4 +1,4 @@
-import {useState, useEffect} from "react";
+import { useEffect } from "react";
 
 //стили
 import "./SavedMovies.scss";
@@ -7,9 +7,9 @@ import "./SavedMovies.scss";
 import SearchForm from "../SearchForm/SearchForm";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import MoviesCard from "../MoviesCard/MoviesCard";
+import Preloader from "../Preloader/Preloader";
 
 const SavedMovies = (props) => {
-  const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
     const fetchData = async () => {
@@ -19,16 +19,23 @@ const SavedMovies = (props) => {
   }, [])
 
   return (
-    <>
-      <SearchForm getFilteredSavedMovies={props.getFilteredSavedMovies} />
-      {isLoading 
-      ? "Идет загрузка" 
-      :
-      <MoviesCardList>
-        {props.filtredSavedMovies.length < 1 ? "Сохраненных фильмов нет" : props.filtredSavedMovies.map((movie) => <MoviesCard movie={movie} removeMovie={props.removeMovie} key={movie._id} />)}
-      </MoviesCardList>
+    <section className="movies">
+      <SearchForm
+        valueSearch={props.valueInputSearchSavedMovies}
+        setValueSearch={props.setValueInputSearchSavedMovies}
+        isShortMovies={props.isShortSavedMovies}
+        setIsShortMovies={props.setIsShortSavedMovies}
+        getFilteredMovies={props.getFilteredSavedMovies} />
+      {
+        props.isLoading
+          ? <Preloader />
+          : (props.filtredSavedMovies.length < 1
+            ? "Сохраненных фильмов нет"
+            : <MoviesCardList>
+              {props.filtredSavedMovies.map((movie) => <MoviesCard movie={movie} removeMovie={props.removeMovie} key={movie._id} />)}
+            </MoviesCardList>)
       }
-    </>
+    </section>
   )
 }
 
