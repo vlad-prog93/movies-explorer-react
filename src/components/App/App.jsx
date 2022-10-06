@@ -33,11 +33,12 @@ import useAddMovies from "../../hooks/useAddMovies";
 
 
 
-function App() {
+const App = () => {
   const windowSize = useScreenSize();
   const navigate = useNavigate();
 
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
+  const [isLoadIn, setIsLoadIn] = useState(true);
 
   const [isLogin, setIsLogin] = useState(false);
   const [burgerIsActive, setBurgerIsActive] = useState(false);
@@ -216,11 +217,13 @@ function App() {
     const jwt = token.get();
     if (jwt) {
       try {
-        setIsLogin(true);
         getUser();
+        setIsLogin(true);
       } catch (err) {
         navigate("/")
         console.error(err);
+      } finally {
+        setIsLoadIn(false);
       }
     }
   };
@@ -228,7 +231,6 @@ function App() {
   useEffect(() => {
     tokenCheck();
   }, [isLogin])
-
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
@@ -255,8 +257,9 @@ function App() {
           savedMovies={savedMovies}
           setSavedMovies={setSavedMovies}
           burgerIsActive={burgerIsActive}
-          toggleBurger={toggleBurger} 
-          addYetMovies={addYetMovies} />} />
+          toggleBurger={toggleBurger}
+          addYetMovies={addYetMovies}
+          isLoadIn={isLoadIn} />} />
         <Route path={paths.savedMovies} element={<ProtectedRoute
           component={SavedMovies}
           valueInputSearchSavedMovies={valueInputSearchSavedMovies}
@@ -272,12 +275,13 @@ function App() {
           setSavedMovies={setSavedMovies}
           isLogin={isLogin}
           burgerIsActive={burgerIsActive}
-          toggleBurger={toggleBurger} />} />
+          toggleBurger={toggleBurger}
+          isLoadIn={isLoadIn} />} />
         <Route path={paths.profile} element={<ProtectedRoute component={Profile} isLogin={isLogin} updateUser={updateUser} signOut={signOut} />} />
         <Route path="/*" element={<PageNotFound />} />
       </Routes>
-      <NavBar isActive={burgerIsActive} toggleMenu={e => toggleBurger(e)} />
       <RoutesFooter />
+      <NavBar isActive={burgerIsActive} toggleMenu={e => toggleBurger(e)} />
     </CurrentUserContext.Provider>
   );
 }
