@@ -14,16 +14,16 @@ const NavBar = (props) => {
             <nav className="nav-menu">
                 <ul className="nav-menu__list">
                     <li className="nav-menu__item">
-                        <NavLink className="nav-menu__link" to="/">Главная</NavLink>
+                        <NavLink className={(navData)=>navData.isActive ? "nav-menu__link nav-menu__link_active" : "nav-menu__link"} to="/">Главная</NavLink>
                     </li>
                     <li className="nav-menu__item active">
-                        <NavLink className="nav-menu__link" to="/movies">Фильмы</NavLink>
+                        <NavLink className={(navData)=>navData.isActive ? "nav-menu__link nav-menu__link_active" : "nav-menu__link"} to="/movies">Фильмы</NavLink>
                     </li>
                     <li className="nav-menu__item">
-                        <NavLink className="nav-menu__link" to="/saved-movies">Сохранённые фильмы</NavLink>
+                        <NavLink className={(navData)=>navData.isActive ? "nav-menu__link nav-menu__link_active" : "nav-menu__link"} to="/saved-movies">Сохранённые фильмы</NavLink>
                     </li>
                 </ul>
-                <NavLink className="nav-menu__link-account" to="/profile">
+                <NavLink className={(navData)=>navData.isActive ? "nav-menu__link-account nav-menu__link-account_active" : "nav-menu__link-account"} to="/profile">
                     <span>Аккаунт</span>
                     <Account className="nav-menu__account" alt="icon" />
                 </NavLink>

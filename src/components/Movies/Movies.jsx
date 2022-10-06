@@ -1,5 +1,3 @@
-import { useEffect, useState } from "react";
-
 // стили
 import "./Movies.scss";
 
@@ -11,16 +9,7 @@ import Preloader from "../Preloader/Preloader";
 
 
 const Movies = (props) => {
-
-  useEffect(() => {
-    const fetchData = async () => {
-      await props.getSavedMovies();
-      await props.getMovies();
-    }
-    fetchData();
-  }, [])
-
-
+  const visibleButton = props.renderMovies.length === props.filtredMovies.length;
   return (
     <section className="movies">
       <SearchForm
@@ -29,17 +18,24 @@ const Movies = (props) => {
         isShortMovies={props.isShortMovies}
         setIsShortMovies={props.setIsShortMovies}
         getFilteredMovies={props.getFilteredMovies} />
-      {
 
+      {
         props.isLoading
           ? <Preloader />
           : (props.renderMovies.length < 1
             ? <h1>Ничего не найдено</h1>
             : <>
               <MoviesCardList>
-                {props.renderMovies.map((movie) => <MoviesCard movie={movie} savedMovies={props.savedMovies} saveOrRemoveMovie={props.saveOrRemoveMovie} key={movie.id} />)}
+                {props.renderMovies.map((movie) =>
+                  <MoviesCard
+                    movie={movie}
+                    savedMovies={props.savedMovies}
+                    saveOrRemoveMovie={props.saveOrRemoveMovie}
+                    key={movie.id} />)}
               </MoviesCardList>
-              <button type="button" onClick={props.addYetMovies} className="movies__btn">Ещё</button>
+              {props.isLoadingAddMovies 
+              ? <Preloader /> 
+              : (!visibleButton && <button type="button" onClick={props.addYetMovies} className="movies__btn">Ещё</button>)}
             </>)
       }
     </section>

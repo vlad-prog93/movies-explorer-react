@@ -23,7 +23,7 @@ const useScreenSize = () => {
   }, [windowDimenion])
 
   return (
-    windowDimenion
+    windowDimenion.width
   )
 }
 

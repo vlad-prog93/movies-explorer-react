@@ -28,38 +28,53 @@ import moviesApi from "../../utils/moviesApi";
 import { URL_MOVIES } from "../../utils/constants";
 
 // хуки
-import useScreenSize from "../../hooks/useScreenSize";
 import useAddMovies from "../../hooks/useAddMovies";
 
 
 
 const App = () => {
-  const windowSize = useScreenSize();
   const navigate = useNavigate();
 
+  // для загрузки фильмов
   const [isLoading, setIsLoading] = useState(false);
+
+  // для защиты от перерендеринга в ProtectedRoute
   const [isLoadIn, setIsLoadIn] = useState(true);
 
-  const [isLogin, setIsLogin] = useState(false);
+  // для бургера меню
   const [burgerIsActive, setBurgerIsActive] = useState(false);
+
+  // кладем в контекст
   const [currentUser, setCurrentUser] = useState({});
+
+  // для отрисовки ошибок при регистрации и аунтентификации 
   const [authError, setAuthError] = useState(false);
 
+  // логин
+  const [isLogin, setIsLogin] = useState(false);
+
+  // фильмы, отфильтрованные фильмы и отрисованные фильмы
   const [movies, setMovies] = useState([]);
   const [filtredMovies, setFiltredMovies] = useState([]);
-  const [renderMovies, setRenderMovies] = useState([]);
 
+  // сохраненные фильмы, отфильтрованные-отрисованные фильмы
   const [savedMovies, setSavedMovies] = useState([]);
   const [filtredSavedMovies, setFiltredSavedMovies] = useState([]);
 
+  // значения формы поиска для фильмов - значение инпута, значение чекбокса
   const [valueInputSearchMovies, setValueInputSearchMovies] = useState('');
   const [isShortMovies, setIsShortMovies] = useState(false);
 
+  // значения формы поиска для сохраненных фильмов - значение инпута, значение чекбокса
   const [valueInputSearchSavedMovies, setValueInputSearchSavedMovies] = useState('');
   const [isShortSavedMovies, setIsShortSavedMovies] = useState(false);
 
-  const [addYetMovies, getYetMovies] = useAddMovies(windowSize.width);
+  // хук - отвечает за отрисовку отфильтрованных фильмов и обработку кнопки "еще"
+  const [renderMovies, addYetMovies, isLoadingAddMovies] = useAddMovies(filtredMovies);
 
+  const toggleBurger = (e) => setBurgerIsActive(!burgerIsActive);
+
+  // действия связанные с фильмами
   const getMovies = async () => {
     try {
       setIsLoading(true);
@@ -72,33 +87,25 @@ const App = () => {
     }
   }
 
-  useEffect(() => {
-    if (windowSize.width >= 1280) {
-      setRenderMovies(filtredMovies.slice(0, getYetMovies["1280"]))
-    } else if (windowSize.width >= 768) {
-      setRenderMovies(filtredMovies.slice(0, getYetMovies["768"]))
-    } else if (windowSize.width >= 320) {
-      setRenderMovies(filtredMovies.slice(0, getYetMovies["320"]))
-    }
-  }, [windowSize, filtredMovies, getYetMovies])
-
-  const getFilteredMovies = (shortMovies, valueSearch) => {
-    const filtredOnShortMovies = shortMovies ? movies.filter((movie) => movie.duration <= 40) : movies;
-    const filtredOnTextAndShortMovies = filtredOnShortMovies.filter((movie) => movie.nameRU.toLowerCase().includes(valueSearch.toLowerCase()));
-    setFiltredMovies(filtredOnTextAndShortMovies)
-  }
-
   const getSavedMovies = async () => {
     try {
       setIsLoading(true);
       const { movies } = await mainApi.getMovies();
       setSavedMovies(movies);
-      setFiltredSavedMovies(movies);
+      getFilteredSavedMovies(isShortSavedMovies, valueInputSearchSavedMovies);
     } catch (e) {
       console.log(e);
     } finally {
       setIsLoading(false);
     }
+  }
+
+
+
+  const getFilteredMovies = (shortMovies, valueSearch) => {
+    const filtredOnShortMovies = shortMovies ? movies.filter((movie) => movie.duration <= 40) : movies;
+    const filtredOnTextAndShortMovies = filtredOnShortMovies.filter((movie) => movie.nameRU.toLowerCase().includes(valueSearch.toLowerCase()));
+    setFiltredMovies(filtredOnTextAndShortMovies)
   }
 
   const getFilteredSavedMovies = (shortMovies, valueSearch) => {
@@ -149,7 +156,7 @@ const App = () => {
   }
 
 
-
+  /////////////  действия связанные с user /////////////
   const signUp = async (name, email, password) => {
     try {
       await auth.signUp(name, email, password)
@@ -166,6 +173,8 @@ const App = () => {
       const res = await auth.signIn(email, password);
       token.set(res.token);
       await getUser();
+      await getMovies();
+      await getSavedMovies();
       setIsLogin(true);
       navigate("/movies");
       setAuthError(false);
@@ -197,38 +206,55 @@ const App = () => {
     }
   }
 
-  const toggleBurger = (e) => {
-    setBurgerIsActive(!burgerIsActive)
-  }
 
+
+
+
+  // роуты для header
   const RoutesHeader = () => useRoutes(
     [paths.home, paths.movies, paths.savedMovies, paths.profile].map((path, ind) => {
       return { path: path, element: <Header isLogin={isLogin} burgerIsActive={burgerIsActive} toggleBurger={toggleBurger} />, key: ind }
     }
     ))
 
+  // роуты для footer
   const RoutesFooter = () => useRoutes(
     [paths.home, paths.movies, paths.savedMovies].map((path, ind) => {
       return { path: path, element: <Footer />, key: ind }
     }
     ))
 
-  const tokenCheck = async () => {
-    const jwt = token.get();
-    if (jwt) {
-      try {
-        getUser();
-        setIsLogin(true);
-      } catch (err) {
-        navigate("/")
-        console.error(err);
-      } finally {
-        setIsLoadIn(false);
-      }
+  // эффекты для чекбокса
+  useEffect(() => {
+    if (filtredMovies.length !== 0) {
+      getFilteredMovies(isShortMovies, valueInputSearchMovies);
     }
-  };
+  }, [isShortMovies])
 
   useEffect(() => {
+    if (filtredSavedMovies.length !== 0) {
+      getFilteredSavedMovies(isShortSavedMovies, valueInputSearchSavedMovies);
+    }
+  }, [isShortSavedMovies])
+
+  // проверка логина 
+  useEffect(() => {
+    const tokenCheck = async () => {
+      const jwt = token.get();
+      if (jwt) {
+        try {
+          await getUser();
+          await getMovies();
+          await getSavedMovies();
+          setIsLogin(true);
+        } catch (err) {
+          navigate("/")
+          console.error(err);
+        } finally {
+          setIsLoadIn(false);
+        }
+      }
+    };
     tokenCheck();
   }, [isLogin])
 
@@ -242,24 +268,20 @@ const App = () => {
         <Route path={paths.movies} element={<ProtectedRoute
           component={Movies}
           renderMovies={renderMovies}
+          filtredMovies={filtredMovies}
+          isLoadingAddMovies={isLoadingAddMovies}
           valueInputSearchMovies={valueInputSearchMovies}
           setValueInputSearchMovies={setValueInputSearchMovies}
           isShortMovies={isShortMovies}
           setIsShortMovies={setIsShortMovies}
           isLoading={isLoading}
-          filtredMovies={filtredMovies}
           getFilteredMovies={getFilteredMovies}
           saveOrRemoveMovie={saveOrRemoveMovie}
-          getSavedMovies={getSavedMovies}
-          movies={movies}
-          getMovies={getMovies}
-          isLogin={isLogin}
           savedMovies={savedMovies}
           setSavedMovies={setSavedMovies}
-          burgerIsActive={burgerIsActive}
-          toggleBurger={toggleBurger}
           addYetMovies={addYetMovies}
-          isLoadIn={isLoadIn} />} />
+          isLoadIn={isLoadIn}
+          isLogin={isLogin} />} />
         <Route path={paths.savedMovies} element={<ProtectedRoute
           component={SavedMovies}
           valueInputSearchSavedMovies={valueInputSearchSavedMovies}
@@ -269,13 +291,8 @@ const App = () => {
           isLoading={isLoading}
           filtredSavedMovies={filtredSavedMovies}
           removeMovie={removeMovie}
-          getSavedMovies={getSavedMovies}
-          savedMovies={savedMovies}
           getFilteredSavedMovies={getFilteredSavedMovies}
-          setSavedMovies={setSavedMovies}
           isLogin={isLogin}
-          burgerIsActive={burgerIsActive}
-          toggleBurger={toggleBurger}
           isLoadIn={isLoadIn} />} />
         <Route path={paths.profile} element={<ProtectedRoute component={Profile} isLogin={isLogin} updateUser={updateUser} signOut={signOut} />} />
         <Route path="/*" element={<PageNotFound />} />

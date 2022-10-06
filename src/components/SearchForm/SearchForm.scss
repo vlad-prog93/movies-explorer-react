@@ -112,6 +112,15 @@
   border: none;
   border-radius: 20px;
   cursor: pointer;
+  transition: .2s all linear;
+
+  &:hover {
+    transform: scale(1.1);
+  }
+
+  &:active {
+    transform: scale(0.8);
+  }
 
 }
 

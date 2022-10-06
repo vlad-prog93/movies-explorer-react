@@ -1,5 +1,3 @@
-import { useEffect } from "react";
-
 //стили
 import "./SavedMovies.scss";
 
@@ -11,13 +9,6 @@ import Preloader from "../Preloader/Preloader";
 
 const SavedMovies = (props) => {
 
-  useEffect(() => {
-    const fetchData = async () => {
-      await props.getSavedMovies();
-    }
-    fetchData();
-  }, [])
-
   return (
     <section className="movies">
       <SearchForm
@@ -26,13 +17,18 @@ const SavedMovies = (props) => {
         isShortMovies={props.isShortSavedMovies}
         setIsShortMovies={props.setIsShortSavedMovies}
         getFilteredMovies={props.getFilteredSavedMovies} />
+      
       {
         props.isLoading
           ? <Preloader />
           : (props.filtredSavedMovies.length < 1
             ? "Сохраненных фильмов нет"
             : <MoviesCardList>
-              {props.filtredSavedMovies.map((movie) => <MoviesCard movie={movie} removeMovie={props.removeMovie} key={movie._id} />)}
+              {props.filtredSavedMovies.map((movie) => 
+              <MoviesCard 
+              movie={movie} 
+              removeMovie={props.removeMovie} 
+              key={movie._id} />)}
             </MoviesCardList>)
       }
     </section>

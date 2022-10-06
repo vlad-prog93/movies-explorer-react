@@ -44,7 +44,7 @@
 
 .nav__link {
     padding: 8px 20px;
-    font-weight: 500;
+    font-weight: 400;
     font-size: 12px;
     line-height: 16px;
     border-radius: 3px;
@@ -70,9 +70,10 @@
     padding: 0;
 }
 
+
 .nav__link_white,
 .nav__link-account {
-    font-weight: 500;
+    font-weight: 400;
     font-size: 13px;
     line-height: 18px;
     color: black;
@@ -85,18 +86,30 @@
     }
 }
 
-.nav__link-account {
+.nav__link_white_active {
     font-weight: 500;
-    font-size: 14px;
-    line-height: 16px;
 }
 
-
 .nav__link-account {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 16px;
     display: flex;
     align-items: center;
     justify-content: flex-end;
     padding-right: 0;
+}
+
+.nav__link-account_active {
+    font-weight: 500;
+}
+
+.nav__link-account_dark {
+    color: white;
+
+    &:hover {
+        background-color: $green;
+    }
 }
 
 .nav__account {
@@ -104,6 +117,10 @@
     background-color: #F9F9F9;
     padding: 8px 7.25px;
     border-radius: 4px;
+}
+
+.nav__link-account_dark:hover .nav__account_dark {
+    background-color: $green;
 }
 
 .burger-btn {

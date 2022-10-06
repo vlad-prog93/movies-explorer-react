@@ -1,24 +1,45 @@
-import { useState } from "react";
+import { useEffect } from "react";
 
-const useAddMovies = (width) => {
-    
+import { useState } from "react";
+import { WIDTH_L, WIDTH_M, WIDTH_S } from "../utils/constants";
+import useScreenSize from "./useScreenSize";
+
+const useAddMovies = (filtredMovies) => {
+    const width = useScreenSize();
+    const [renderMovies, setRenderMovies] = useState([]);
     const [getYetMovies, setGetYetMovies] = useState({
-        "1280": 12,
-        "768": 9,
-        "320": 5
+        "WIDTH_L": 12,
+        "WIDTH_M": 9,
+        "WIDTH_S": 5
     })
+    const [isLoadingAddMovies, setIsLoadingAddMovies] = useState(false);
 
     const addYetMovies = () => {
-        if (width >= 1280) {
-            setGetYetMovies({ ...getYetMovies, "1280": getYetMovies["1280"] + 4 })
-        } else if (width >= 768) {
-            setGetYetMovies({ ...getYetMovies, "768": getYetMovies["768"] + 3 })
-        } else if (width >= 320) {
-            setGetYetMovies({ ...getYetMovies, "320": getYetMovies["320"] + 1 })
+        if (width >= Number(WIDTH_L)) {
+            setGetYetMovies({ ...getYetMovies, WIDTH_L: getYetMovies["WIDTH_L"] + 4 })
+        } else if (width >= Number(WIDTH_M)) {
+            setGetYetMovies({ ...getYetMovies, WIDTH_M: getYetMovies["WIDTH_M"] + 3 })
+        } else if (width >= Number(WIDTH_S)) {
+            setGetYetMovies({ ...getYetMovies, WIDTH_S: getYetMovies["WIDTH_S"] + 1 })
         }
     }
 
-    return [addYetMovies, getYetMovies];
+    useEffect(() => {
+        setIsLoadingAddMovies(true)
+        setTimeout(() => {
+            setIsLoadingAddMovies(false)
+            if (width >= Number(WIDTH_L)) {
+                setRenderMovies(filtredMovies.slice(0, getYetMovies["WIDTH_L"]))
+            } else if (width >= Number(WIDTH_M)) {
+                setRenderMovies(filtredMovies.slice(0, getYetMovies["WIDTH_M"]))
+            } else if (width >= Number(WIDTH_S)) {
+                setRenderMovies(filtredMovies.slice(0, getYetMovies["WIDTH_S"]))
+            }
+        }, 500);
+    }, [width, filtredMovies, getYetMovies])
+
+
+    return [renderMovies, addYetMovies, isLoadingAddMovies];
 }
 
 export default useAddMovies;
