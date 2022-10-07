@@ -18,7 +18,7 @@ const SearchForm = ({getFilteredMovies, isShortMovies, setIsShortMovies, valueSe
                 <form className="search__form">
                     <div className="search__input-container">
                         <label className="search__icon" htmlFor="search"><Search /></label>
-                        <input value={valueSearch} onChange={e => setValueSearch(e.target.value)} id="search" className="search__input" type="search" placeholder="Фильм" />
+                        <input autoComplete="off" value={valueSearch} onChange={e => setValueSearch(e.target.value)} id="search" className="search__input" type="search" placeholder="Фильм" />
                         <button onClick={e => getMovies(e)} className="search__button " />
                         <div className="search__br" />
                     </div>

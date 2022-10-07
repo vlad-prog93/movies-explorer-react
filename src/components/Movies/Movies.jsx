@@ -22,9 +22,12 @@ const Movies = (props) => {
       {
         props.isLoading
           ? <Preloader />
-          : (props.renderMovies.length < 1
-            ? <h1>Ничего не найдено</h1>
+          : (props.movies.length < 1
+            ? <h2 className="movies__title-info">Для отображения фильмов воспользуйтесь поиском</h2>
             : <>
+              {props.filtredMovies.length <1 
+              ? <h2 className="movies__title-info">Фильмы не найдены</h2>
+              : 
               <MoviesCardList>
                 {props.renderMovies.map((movie) =>
                   <MoviesCard
@@ -33,6 +36,7 @@ const Movies = (props) => {
                     saveOrRemoveMovie={props.saveOrRemoveMovie}
                     key={movie.id} />)}
               </MoviesCardList>
+              }
               {props.isLoadingAddMovies 
               ? <Preloader /> 
               : (!visibleButton && <button type="button" onClick={props.addYetMovies} className="movies__btn">Ещё</button>)}

@@ -26,16 +26,14 @@ const useAddMovies = (filtredMovies) => {
 
     useEffect(() => {
         setIsLoadingAddMovies(true)
-        setTimeout(() => {
-            setIsLoadingAddMovies(false)
-            if (width >= Number(WIDTH_L)) {
-                setRenderMovies(filtredMovies.slice(0, getYetMovies["WIDTH_L"]))
-            } else if (width >= Number(WIDTH_M)) {
-                setRenderMovies(filtredMovies.slice(0, getYetMovies["WIDTH_M"]))
-            } else if (width >= Number(WIDTH_S)) {
-                setRenderMovies(filtredMovies.slice(0, getYetMovies["WIDTH_S"]))
-            }
-        }, 500);
+        if (width >= Number(WIDTH_L)) {
+            setRenderMovies(filtredMovies.slice(0, getYetMovies["WIDTH_L"]))
+        } else if (width >= Number(WIDTH_M)) {
+            setRenderMovies(filtredMovies.slice(0, getYetMovies["WIDTH_M"]))
+        } else if (width >= Number(WIDTH_S)) {
+            setRenderMovies(filtredMovies.slice(0, getYetMovies["WIDTH_S"]))
+        }
+        setIsLoadingAddMovies(false)
     }, [width, filtredMovies, getYetMovies])
 
 

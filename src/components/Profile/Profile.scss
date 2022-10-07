@@ -48,6 +48,18 @@
     display: flex;
     flex-direction: column;
     width: 100%;
+    margin-bottom: 198px;
+
+
+
+    @media (max-width: 768px) {
+        margin-bottom: 189px;
+    }
+
+    @media (max-width: 525px) {
+        margin-bottom: 356px;
+    }
+
 }
 
 .profile__label {
@@ -116,17 +128,11 @@
     line-height: 16px;
     border: none;
     background-color: white;
-    margin-top: 198px;
     cursor: pointer;
-
-    @media (max-width: 768px) {
-        margin-top: 189px;
-    }
 
     @media (max-width: 525px) {
         font-size: 12px;
         line-height: 15px;
-        margin-top: 356px;
     }
 }
 
@@ -137,6 +143,7 @@
     border: none;
     background-color: white;
     cursor: pointer;
+    margin-top: 10px;
 
     @media (max-width: 525px) {
         font-size: 12px;

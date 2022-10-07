@@ -1,11 +1,12 @@
 //стили
-import "./SavedMovies.scss";
+import "./SavedMovies.scss"
 
 //компоненты
-import SearchForm from "../SearchForm/SearchForm";
-import MoviesCardList from "../MoviesCardList/MoviesCardList";
-import MoviesCard from "../MoviesCard/MoviesCard";
-import Preloader from "../Preloader/Preloader";
+import SearchForm from "../SearchForm/SearchForm"
+import MoviesCardList from "../MoviesCardList/MoviesCardList"
+import MoviesCard from "../MoviesCard/MoviesCard"
+import Preloader from "../Preloader/Preloader"
+import { useEffect } from "react"
 
 const SavedMovies = (props) => {
 
