@@ -1,5 +1,8 @@
 movies-explorer-frontend
 
+ссылка на pull request: https://github.com/vlad-prog93/movies-explorer-react/pull/2
+
+
 домен: moviesstar.nomoredomains.icu
 ip: 51.250.65.206
 
