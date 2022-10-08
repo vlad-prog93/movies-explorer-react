@@ -99,7 +99,7 @@ const App = () => {
       getFilteredSavedMovies(isShortSavedMovies, valueInputSearchSavedMovies)
     } catch (e) {
       console.log(e)
-    } 
+    }
   }
 
 
@@ -204,10 +204,10 @@ const App = () => {
       setIsLoading(true)
       const res = await mainApi.updateUser(name, email)
       setCurrentUser({ ...currentUser, name: res.name, email: res.email })
-      console.log(res)
+      return res
     } catch (e) {
       setAuthError(true)
-      console.log(e)
+      return e
     } finally {
       setIsLoading(false)
     }
@@ -301,6 +301,7 @@ const App = () => {
         <Route path="/*" element={<PageNotFound />} />
       </Routes>
       <RoutesFooter />
+
       <NavBar isActive={burgerIsActive} toggleMenu={e => toggleBurger(e)} />
     </CurrentUserContext.Provider>
   );

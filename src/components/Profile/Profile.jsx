@@ -18,9 +18,16 @@ const Profile = (props) => {
 
     const name = useInput(currentUser.name, { isEmpty: true })
     const email = useInput(currentUser.email, { isEmail: true })
+    
+    // при успешном изменении профиля
+    const [success, setSuccess] = useState(false)
+
+    // при ошибке изменения профиля
+    const [error, setError] = useState(false)
 
     const [isInputDisabled, setIsInputDisabled] = useState(true)
     const [isDisabledBtn, setIsDisabledBtn] = useState(true)
+
     const classInputName = name.isValidInput ? "profile__input" : "profile__input profile__input_error"
     const classInputEmail = email.isValidInput ? "profile__input" : "profile__input profile__input_error"
     const classLabel = !isInputDisabled ? "profile__label" : "profile__label_disabled"
@@ -30,9 +37,16 @@ const Profile = (props) => {
         setIsInputDisabled(false)
     }
 
-    const updateUser = (e) => {
+    const updateUser = async (e) => {
         e.preventDefault()
-        props.updateUser(name.value, email.value)
+        const res = await props.updateUser(name.value, email.value)
+        if (res._id) {
+            setSuccess(true)
+            setError(false)
+        } else {
+            setSuccess(false)
+            setError(true)
+        } 
         setIsInputDisabled(true)
     }
 
@@ -84,6 +98,8 @@ const Profile = (props) => {
                     !isInputDisabled
                         ? <MyButton onClick={e => updateUser(e)} disabled={!email.isValidInput || !name.isValidInput || isDisabledBtn}>Сохранить</MyButton>
                         : <>
+                            {success && <p className="profile__success">Профиль успешно изменён</p>}
+                            {error && <p className="profile__error">Ошибка при сохранении профиля</p>}
                             <button onClick={e => editUser(e)} className="profile__btn-edit">Редактировать</button>
                             <button onClick={e => props.signOut(e)} className="profile__btn-exit">Выйти из аккаунта</button>
                         </>
