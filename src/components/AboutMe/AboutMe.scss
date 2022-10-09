@@ -1,0 +1,153 @@
+@import '../../styles/mixins';
+
+.aboutMe {
+  width: 100%;
+  padding-top: 110px;
+  background-color: white;
+
+  @media (max-width: 768px) {
+    padding-top: 90px;
+  }
+
+  @media (max-width: 320px) {
+    padding-top: 75px;
+  }
+}
+
+.aboutMe__container {
+  margin: 0 auto;
+  width: 89%;
+
+  @media (max-width: 1280px) {
+    @include adaptiv_width_1280_780(1140, 668);
+  }
+
+  @media (max-width: 768px) {
+    @include adaptiv_width_768_320(668, 292);
+  }
+}
+
+.aboutMe_wrapper {
+  margin-top: 66px;
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+
+  @media (max-width: 670px) {
+    margin-top: 60px;
+    flex-direction: column-reverse;
+    align-items: center;
+    gap: 0;
+  }
+}
+
+.aboutMe__title {
+  margin: 0;
+  padding: 0;
+  font-weight: 400;
+  font-size: 50px;
+  line-height: 58px;
+  letter-spacing: -0.04em;
+  color: black;
+
+  @media (max-width: 1280px) {
+    @include adaptiv_font-size_1280_780(50, 40);
+    @include adaptiv_line-height_1280_780(58, 40);
+  }
+
+
+  @media (max-width: 768px) {
+    @include adaptiv_font-size_768_320(40, 30);
+    @include adaptiv_line-height_768_320(40, 36);
+  }
+
+  @media (max-width: 425px) {
+    margin-top: 40px;
+  }
+}
+
+.aboutMe__job {
+  margin: 18px 0 0;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 20px;
+  color: black;
+  mix-blend-mode: normal;
+
+  @media (max-width: 1280px) {
+    @include adaptiv_font-size_1280_780(18, 12);
+    @include adaptiv_line-height_1280_780(20, 18);
+  }
+
+  @media (max-width: 768px) {
+    margin-top: 16px;
+    @include adaptiv_font-size_768_320(12, 11);
+    @include adaptiv_line-height_768_320(18, 16);
+  }
+
+  @media (max-width: 425px) {
+    margin-top: 20px;
+  }
+}
+
+.aboutMe__description {
+  margin: 26px 0 0;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 22px;
+  color: black;
+  mix-blend-mode: normal;
+  max-width: 600px;
+
+  @media (max-width: 1280px) {
+    @include adaptiv_font-size_1280_780(14, 12);
+    @include adaptiv_line-height_1280_780(22, 18);
+  }
+
+  @media (max-width: 768px) {
+    margin-top: 20px;
+    max-width: 364px;
+    @include adaptiv_font-size_768_320(12, 11);
+    @include adaptiv_line-height_768_320(18, 16);
+  }
+}
+
+.aboutMe__link {
+  display: block;
+  margin-top: 99px;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 17px;
+  color: black;
+  transition: .3s all linear;
+
+  &:hover {
+    opacity: 0.8;
+  }
+
+  @media (max-width: 768px) {
+    margin-top: 87px;
+  }
+
+  @media (max-width: 425px) {
+    margin-top: 40px;
+  }
+}
+
+.aboutMe__img {
+  width: 270px;
+  height: 327px;
+
+  @media (max-width: 768px) {
+    width: 255px;
+    height: 307px;
+  }
+
+  @media (max-width: 670px) {
+    width: 292px;
+    height: 352px;
+    object-fit: contain;
+    border-radius: 10px;
+  }
+}
