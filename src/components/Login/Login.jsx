@@ -1,30 +1,42 @@
+import { Navigate } from "react-router-dom"
+import { useState } from "react"
+
 // стили
 import "./Login.scss";
 
 // компоненты
-import Logo from "../../ImgComponents/Logo";
-import MyInput from "../MyInput/MyInput";
-import MyLabel from "../MyLabel/MyLabel";
-import TitleAuth from "../TitleAuth/TitleAuth";
-import FormAuth from "../FormAuth/FormAuth";
+import Logo from "../../ImgComponents/Logo"
+import MyInput from "../MyInput/MyInput"
+import MyLabel from "../MyLabel/MyLabel"
+import TitleAuth from "../TitleAuth/TitleAuth"
+import FormAuth from "../FormAuth/FormAuth"
 
 // хуки
-import useInput from "../../hooks/useInput";
+import useInput from "../../hooks/useInput"
+
+// утилиты
+import { MAX_LENGTH_PASSWORD, MIN_LENGTH_PASSWORD } from "../../utils/constants"
 
 const Login = (props) => {
-  const email = useInput("", {isEmail: true});
-  const password = useInput("", {minLength: 2, maxLength: 30});
+  const email = useInput("", {isEmail: true})
+  const password = useInput("", {minLength: MIN_LENGTH_PASSWORD, maxLength: MAX_LENGTH_PASSWORD})
+  const [isLoading, setIsLoading] = useState(false)
 
   const signIn = (e) => {
-    e.preventDefault();
-    props.signIn(email.value, password.value);
+    e.preventDefault()
+    setIsLoading(true)
+    props.signIn(email.value, password.value)
+  }
+
+  if (props.isLogin) {
+    return <Navigate to="/" />
   }
 
   return (
     <section className="auth">
       <Logo className="auth__logo" />
       <TitleAuth>Рады видеть!</TitleAuth>
-      <FormAuth authError={props.authError} signIn={signIn} email={email} password={password}>
+      <FormAuth isLoading={isLoading} authError={props.authError} signIn={signIn} email={email} password={password}>
       <MyLabel nameInput="Email" text="E-mail" />
         <MyInput value={email.value} onBlur={e => email.onBlur(e)} onFocus={e => email.onFocus(e)} onChange={e => email.onChange(e)} nameInput="Email" type="text" placeholder="Введите e-mail" />
         { email.isEmailError.state && (email.isDirty || email.isFocus ) && <span className="auth__message-error">{email.isEmailError.message}</span> }

@@ -22,7 +22,7 @@ const Movies = (props) => {
       {
         props.isLoading
           ? <Preloader />
-          : (props.movies.length < 1
+          : (props.renderMovies.length < 1
             ? <h2 className="movies__title-info">Для отображения фильмов воспользуйтесь поиском</h2>
             : <>
               {props.filtredMovies.length <1 

@@ -15,6 +15,7 @@ const useInput = (initialValue, validations) => {
 
     return {
         value,
+        setValue,
         isDirty,
         isFocus,
         onChange,

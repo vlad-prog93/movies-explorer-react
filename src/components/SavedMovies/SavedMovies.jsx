@@ -1,3 +1,5 @@
+import { useEffect } from "react"
+
 //стили
 import "./SavedMovies.scss"
 
@@ -6,9 +8,15 @@ import SearchForm from "../SearchForm/SearchForm"
 import MoviesCardList from "../MoviesCardList/MoviesCardList"
 import MoviesCard from "../MoviesCard/MoviesCard"
 import Preloader from "../Preloader/Preloader"
-import { useEffect } from "react"
 
 const SavedMovies = (props) => {
+
+  useEffect(() => {
+    if (props.filtredSavedMovies.length !== 0) {
+      props.getFilteredSavedMovies(props.isShortSavedMovies, props.valueInputSearchSavedMovies)
+    }
+  }, [])
+
 
   return (
     <section className="movies">
@@ -23,7 +31,7 @@ const SavedMovies = (props) => {
         props.isLoading
           ? <Preloader />
           : (props.filtredSavedMovies.length < 1
-            ? "Сохраненных фильмов нет"
+            ? <h2 className="movies__title-info">Сохраненных фильмов нет</h2>
             : <MoviesCardList>
               {props.filtredSavedMovies.map((movie) => 
               <MoviesCard 

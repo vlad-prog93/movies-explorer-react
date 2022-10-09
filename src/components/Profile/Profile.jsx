@@ -18,7 +18,7 @@ const Profile = (props) => {
 
     const name = useInput(currentUser.name, { isEmpty: true })
     const email = useInput(currentUser.email, { isEmail: true })
-    
+
     // при успешном изменении профиля
     const [success, setSuccess] = useState(false)
 
@@ -40,23 +40,29 @@ const Profile = (props) => {
     const updateUser = async (e) => {
         e.preventDefault()
         const res = await props.updateUser(name.value, email.value)
-        if (res._id) {
+        if (res && res._id) {
             setSuccess(true)
             setError(false)
         } else {
             setSuccess(false)
             setError(true)
-        } 
+        }
         setIsInputDisabled(true)
     }
 
-    useEffect(()=> {
+    const cancel = () => {
+        setIsInputDisabled(true)
+        name.setValue(currentUser.name)
+        email.setValue(currentUser.email)
+    }
+
+    useEffect(() => {
         if (name.value === currentUser.name && email.value === currentUser.email) {
             setIsDisabledBtn(true)
         } else {
             setIsDisabledBtn(false)
         }
-    }, [name.value, email.value])
+    }, [name.value, email.value, isInputDisabled])
 
     return (
         <>
@@ -92,17 +98,20 @@ const Profile = (props) => {
                         />
                         {email.isEmailError.state && (email.isDirty || email.isFocus) && <span className="auth__message-error">{email.isEmailError.message}</span>}
                     </div>
-                    {props.isLoading 
-                    ? <Preloader />
-                    :
-                    !isInputDisabled
-                        ? <MyButton onClick={e => updateUser(e)} disabled={!email.isValidInput || !name.isValidInput || isDisabledBtn}>Сохранить</MyButton>
-                        : <>
-                            {success && <p className="profile__success">Профиль успешно изменён</p>}
-                            {error && <p className="profile__error">Ошибка при сохранении профиля</p>}
-                            <button onClick={e => editUser(e)} className="profile__btn-edit">Редактировать</button>
-                            <button onClick={e => props.signOut(e)} className="profile__btn-exit">Выйти из аккаунта</button>
-                        </>
+                    {props.isLoading
+                        ? <Preloader />
+                        :
+                        !isInputDisabled
+                            ? <>
+                                <MyButton onClick={e => updateUser(e)} disabled={!email.isValidInput || !name.isValidInput || isDisabledBtn}>Сохранить</MyButton>
+                                <MyButton onClick={e => cancel()}>Отмена</MyButton>
+                            </>
+                            : <>
+                                {success && <p className="profile__success">Профиль успешно изменён</p>}
+                                {error && <p className="profile__error">Ошибка при сохранении профиля</p>}
+                                <button onClick={e => editUser(e)} className="profile__btn-edit">Редактировать</button>
+                                <button onClick={e => props.signOut(e)} className="profile__btn-exit">Выйти из аккаунта</button>
+                            </>
                     }
                 </form>
             </section>
