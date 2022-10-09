@@ -1,4 +1,4 @@
-import { Route, Routes, useLocation, useNavigate, useRoutes } from "react-router-dom"
+import { Route, Routes, useNavigate, useRoutes } from "react-router-dom"
 import { useState } from "react"
 
 // стили
@@ -79,11 +79,19 @@ const App = () => {
   // на случай если пользователь не авторизован оказался
   const redirect = () => {
     token.remove()
-    setCurrentUser({})
     setIsLogin(false)
+    setCurrentUser({})
+    token.remove()
     isShortLC.remove()
     valueInputLC.remove()
     moviesLC.remove()
+    setIsShortMovies(false)
+    setValueInputSearchMovies("")
+    setFiltredMovies([])
+    setSavedMovies([])
+    setIsShortSavedMovies(false)
+    setValueInputSearchSavedMovies("")
+    setFiltredSavedMovies([])
     navigate("/")
   }
 
@@ -124,7 +132,6 @@ const App = () => {
     } finally {
       setIsLoading(false)
     }
-    
   }
 
   const getFilteredSavedMovies = (shortMovies, valueSearch) => {
@@ -205,20 +212,7 @@ const App = () => {
 
   const signOut = (e) => {
     e.preventDefault()
-    setIsLogin(false)
-    setCurrentUser({})
-    token.remove()
-    isShortLC.remove()
-    valueInputLC.remove()
-    moviesLC.remove()
-    setIsShortMovies(false)
-    setValueInputSearchMovies("")
-    setFiltredMovies([])
-    setSavedMovies([])
-    setIsShortSavedMovies(false)
-    setValueInputSearchSavedMovies("")
-    setFiltredSavedMovies([])
-    navigate("/")
+    redirect()
   }
 
   const getUser = async () => {
@@ -259,9 +253,7 @@ const App = () => {
 
   // эффекты для чекбокса
   useEffect(() => {
-    if (filtredMovies.length !== 0) {
       getFilteredMovies(isShortMovies, valueInputSearchMovies);
-    }
   }, [isShortMovies])
 
   useEffect(() => {
@@ -302,7 +294,6 @@ const App = () => {
             component={Movies}
             renderMovies={renderMovies}
             filtredMovies={filtredMovies}
-            movies={movies}
             isLoadingAddMovies={isLoadingAddMovies}
             valueInputSearchMovies={valueInputSearchMovies}
             setValueInputSearchMovies={setValueInputSearchMovies}
