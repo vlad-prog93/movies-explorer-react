@@ -1,0 +1,119 @@
+@import '../../styles/mixins';
+
+.techs {
+  width: 100%;
+  padding: 100px 0;
+  background-color: $brite_grey;
+
+  @media (max-width: 768px) {
+    padding: 90px 0;
+  }
+
+  @media (max-width: 425px) {
+    padding: 66px 0;
+    background-color: white;
+  }
+}
+
+.techs__container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 auto;
+  width: 89%;
+
+  @media (max-width: 1280px) {
+    @include adaptiv_width_1280_780(1140, 668);
+  }
+
+  @media (max-width: 768px) {
+    @include adaptiv_width_768_320(668, 284);
+  }
+}
+
+.techs__title {
+  margin: 90px auto 0;
+  font-weight: 400;
+  font-size: 50px;
+  line-height: 58px;
+  text-align: center;
+  letter-spacing: -0.04em;
+
+  @media (max-width: 768px) {
+    margin-top: 80px;
+    @include adaptiv_font-size_768_320(50, 30);
+    @include adaptiv_line-height_768_320(58, 36);
+  }
+
+  @media (max-width: 425px) {
+    margin-top: 60px;
+  }
+}
+
+.techs__description {
+  margin: 26px auto 0;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+  text-align: center;
+  letter-spacing: -0.04em;
+  max-width: 460px;
+
+  @media (max-width: 1280px) {
+    @include adaptiv_font-size_1280_780(14, 12);
+    @include adaptiv_line-height_1280_780(20, 18);
+  }
+
+  @media (max-width: 768px) {
+    margin-top: 22px;
+    @include adaptiv_font-size_768_320(12, 11);
+    @include adaptiv_line-height_768_320(18, 16);
+  }
+}
+
+.techs__list {
+  margin: 100px auto 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  list-style-type: none;
+  gap: 10px;
+
+  @media (max-width: 768px) {
+    margin-top: 83px;
+  }
+
+  @media (max-width: 425px) {
+    margin: 50px auto 0;
+    padding: 0 10px;
+  }
+}
+
+.techs__item {
+  box-sizing: border-box;
+  height: 60px;
+  width: 90px;
+  text-align: center;
+  background-color: $lite_grey;
+  border-radius: 10px;
+  font-size: 14px;
+  line-height: 17px;
+  letter-spacing: -0.04em;
+  padding: 21px 0;
+
+  @media (max-width: 800px) {
+    width: 84px;
+    height: 57px;
+    font-size: 12px;
+    line-height: 14.25px;
+  }
+
+  @media (max-width: 425px) {
+    line-height: 15px;
+
+    :last-child {
+      justify-self: flex-end;
+    }
+  }
+}

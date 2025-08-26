@@ -1,0 +1,17 @@
+@import '../../styles/mixins';
+
+.myInput {
+  margin: 0;
+  padding: 4px 0 9px;
+  width: 100%;
+  border: none;
+  outline: none;
+  border-bottom: 1px $lite_grey solid;
+  transition: .3s all linear;
+
+  &:focus {
+    border-bottom: 1px #3456F3 solid;
+    color: #3456F3;
+
+  }
+}
