@@ -12,7 +12,9 @@ export const MIN_LENGTH_PASSWORD = 2
 export const MAX_LENGTH_PASSWORD = 30
 
 
-export const URL_MAIN = "https://mymovies.nomorepartiesxyz.ru"
+//export const URL_MAIN = "https://mymovies.nomorepartiesxyz.ru"
+export const URL_MAIN = "http://localhost:5000"
+
 export const URL_MOVIES = "https://api.nomoreparties.co"
 
 export const WIDTH_L = "1024"
